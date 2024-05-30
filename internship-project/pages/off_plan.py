@@ -1,4 +1,8 @@
+from selenium.webdriver.support import expected_conditions as EC
+
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+
 from pages.base_page import Page
 
 
@@ -8,23 +12,37 @@ class OffPlan(Page):
     FILTER_BY_PRICE_TO = (By.CSS_SELECTOR, "input[wized='unitPriceToFilter']")
     PRICE_ON_CARDS = (By.CSS_SELECTOR, "div[wized='projectMinimumPrice']")
 
-    def verify_off_plan_header(self):
-        self.verify_text('Total projects', *self.OFF_PLAN_PAGE_CHECK)
+    def verify_off_plan_header(self, timeout=10):
+        # Wait until the element is present and visible
+        element = WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(self.OFF_PLAN_PAGE_CHECK))
 
-    def set_price_range(self, from_price, to_price):
-        price_input = self.driver.find_element(*self.FILTER_BY_PRICE_FROM)
-        price_input.clear()
-        price_input.send_keys(from_price)
+        # Verify the text in the element
+        assert 'Total projects' in element.text, f"Expected text 'Total projects' not found in {element.text}"
 
-        price_input = self.driver.find_element(*self.FILTER_BY_PRICE_TO)
-        price_input.clear()
-        price_input.send_keys(to_price)
+    def set_price_range(self, from_price, to_price, timeout=10):
+        # Wait until the "from price" input field is visible and interactable
+        price_from_input = WebDriverWait(self.driver, timeout).until(
+            EC.element_to_be_clickable(self.FILTER_BY_PRICE_FROM)
+        )
+        price_from_input.clear()
+        price_from_input.send_keys(from_price)
 
-    def verify_prices_in_range(self, min_price, max_price):
+        # Wait until the "to price" input field is visible and interactable
+        price_to_input = WebDriverWait(self.driver, timeout).until(
+            EC.element_to_be_clickable(self.FILTER_BY_PRICE_TO)
+        )
+        price_to_input.clear()
+        price_to_input.send_keys(to_price)
+
+    def verify_prices_in_range(self, min_price, max_price, timeout=10):
         # convert min_price and max_price to integers
         min_price = int(min_price)
         max_price = int(max_price)
 
+        # Wait until the price elements are present
+        WebDriverWait(self.driver, timeout).until(EC.presence_of_all_elements_located(self.PRICE_ON_CARDS))
+
+        # Find all price elements
         price_elements = self.driver.find_elements(*self.PRICE_ON_CARDS)
 
         # verify the prices
