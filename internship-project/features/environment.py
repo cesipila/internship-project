@@ -19,14 +19,14 @@ def browser_init(context):
     #     """
 
     ### IN THE EVENT OF CHROME ONLY TESTS ###
-    # driver_path = ChromeDriverManager().install()
-    # service = Service(driver_path)
-    # context.driver = webdriver.Chrome(service=service)
+    driver_path = ChromeDriverManager().install()
+    service = Service(driver_path)
+    context.driver = webdriver.Chrome(service=service)
 
     ### IN THE EVENT OF FIREFOX ONLY TESTS ###
-    driver_path = GeckoDriverManager().install()
-    service = Service(driver_path)
-    context.driver = webdriver.Firefox(service=service)
+    # driver_path = GeckoDriverManager().install()
+    # service = Service(driver_path)
+    # context.driver = webdriver.Firefox(service=service)
 
     ### BROWSERS WITH DRIVERS: provide pathto the driver file ###
     # service = Service(executable_path='/Users/cesip/python-selenium-automation/geckodriver.exe'
