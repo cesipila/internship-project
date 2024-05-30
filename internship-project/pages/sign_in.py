@@ -7,14 +7,14 @@ class SignIn(Page):
     SIGN_IN_PASSWORD = (By.CSS_SELECTOR, "input[id='field']")
     SIGN_IN_BUTTON = (By.CSS_SELECTOR, "a[wized='loginButton']")
 
+    def input_login(self, email, password):
+        email_input = self.driver.find_element(*self.SIGN_IN_EMAIL)
+        email_input.clear()
+        email_input.send_keys(email)
 
-    def input_email(self, email):
-        self.driver.find_element(*self.SIGN_IN_EMAIL).send_keys(email)
-
-
-    def input_password(self, password):
-        self.find_element(*self.SIGN_IN_PASSWORD).send_keys(password)
-
+        pwd_input = self.find_element(*self.SIGN_IN_PASSWORD)
+        pwd_input.clear()
+        pwd_input.send_keys(password)
 
     def sign_in_button(self):
         self.click(*self.SIGN_IN_BUTTON)
