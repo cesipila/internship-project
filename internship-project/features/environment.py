@@ -1,9 +1,11 @@
 from allure_behave.formatter import AllureFormatter
+from allure_behave.utils import scenario_name
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.chrome.options import Options
 
 from app.application import Application
 from support.logger import logger
@@ -46,8 +48,8 @@ def browser_init(context):
 
     ### BROWSERSTACK ###
     # Register for Browserstack, then grab it from https://www.browserstack.com/accounts/settings
-    # bs_user = 'add username'
-    # bs_key = 'add_key_fromsite'
+    # bs_user = 'charles_mh6rSj'
+    # bs_key = 'VeMdA4R28ndDtbpZGFir'
     # url = f'http://{bs_user}:{bs_key}@hub.browserstack.com/wd/hub'
     #
     # options = Options()
