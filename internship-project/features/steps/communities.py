@@ -33,7 +33,6 @@ def verify_support_page(context):
 @then('Go back to settings page')
 def go_to_settings(context):
     context.app.settings.switch_window_by_id(context.original_window)
-    sleep(10)
 
 
 @then('Click on news option')
