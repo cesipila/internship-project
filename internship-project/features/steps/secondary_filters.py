@@ -27,7 +27,7 @@ def click_continue(context):
 
 @when('Click on secondary option at the left side menu')
 def click_secondary_option(context):
-    context.app.left_menu.click_secondary()
+    context.app.left_menu.open_secondary()
 
 
 @when('Verify the secondary page opens')

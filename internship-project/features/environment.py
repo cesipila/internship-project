@@ -1,34 +1,36 @@
-from allure_behave.formatter import AllureFormatter
-from allure_behave.utils import scenario_name
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.wait import WebDriverWait
 
 from app.application import Application
 from support.logger import logger
 
 
-# Run Behave tests with Allure results
-# behave -f allure_behave.formatter:AllureFormatter -o test_results/ features/tests/target_app_ui_tests.feature
-
-
 def browser_init(context):
-    #     """
-    #     :param context: Behave context
-    #     """
-
-    ### IN THE EVENT OF CHROME ONLY TESTS ###
-    driver_path = ChromeDriverManager().install()
-    service = Service(driver_path)
-    context.driver = webdriver.Chrome(service=service)
+    """
+    :param context: Behave context
+    """
+    # driver_path = ChromeDriverManager().install()
+    # service = Service(driver_path)
+    # context.driver = webdriver.Chrome(service=service)
 
     ### IN THE EVENT OF FIREFOX ONLY TESTS ###
     # driver_path = GeckoDriverManager().install()
     # service = Service(driver_path)
     # context.driver = webdriver.Firefox(service=service)
+
+    ### HEADLESS MODE ####
+    #options = webdriver.ChromeOptions()
+    #options.add_argument('headless')
+    #options.add_argument('--window-size=1920,1080')
+    #service = Service(ChromeDriverManager().install())
+    #context.driver = webdriver.Chrome(
+     #    options=options,
+      #   service=service
+    #)
 
     ### BROWSERS WITH DRIVERS: provide pathto the driver file ###
     # service = Service(executable_path='/Users/cesip/python-selenium-automation/geckodriver.exe'
@@ -37,39 +39,28 @@ def browser_init(context):
     ### IN THE EVENT OF SAFARI ONLY TESTS: MAC OS ONLY ###
     # context.driver = webdriver.Safari()
 
-    ### HEADLESS MODE ###
-    # options = webdriver.ChromeOptions()
-    # options.add_argument('headless')
-    # options.add_argument('--window-size=1920,1080')
-    # service = Service(ChromeDriverManager().install())
-    # context.driver = webdriver.Chrome(
-    #     options=options,
-    #     service=service
-    # )
-
     ### BROWSERSTACK ###
-    # Register for Browserstack, then grab it from https://www.browserstack.com/accounts/settings
-    # bs_user = 'charles_mh6rSj'
-    # bs_key = 'VeMdA4R28ndDtbpZGFir'
-    # url = f'http://{bs_user}:{bs_key}@hub.browserstack.com/wd/hub'
-    #
-    # options = Options()
-    # bstack_options = {
-    #     'os' : 'Windows',
-    #     'osVersion' : '10',
-    #     'browserName' : 'Firefox',
-    #     'sessionName' : scenario_name
-    # }
-    # options.set_capability('bstack:options', bstack_options)
-    # context.driver = webdriver.Remote(command_executor=url, options=options)
+    # Register for BrowserStack, then grab it from https://www.browserstack.com/accounts/settings
+    # Documentation https://www.browserstack.com/docs/automate/selenium/select-browsers-and-devices#Legacy_Integration
+    bs_user = 'charles_mh6rSj'
+    bs_key = 'VeMdA4R28ndDtbpZGFir'
+    url = f'http://{bs_user}:{bs_key}@hub-cloud.browserstack.com/wd/hub'
 
-    context.driver.maximize_window()
+    options = Options()
+    bstack_options = {
+        'os': 'OS X', # Windows, OS X
+        'osVersion': 'Sonoma',
+        'browserName': 'chrome',
+        'sessionName': '22-User can filter by sale status Newly Launch'
+    }
+    options.set_capability('bstack:options', bstack_options)
+    context.driver = webdriver.Remote(command_executor=url, options=options)
 
     context.driver.maximize_window()
     context.driver.implicitly_wait(4)
-    context.wait = WebDriverWait(context.driver, timeout=10)
+    context.wait = WebDriverWait(context.driver, timeout=15)
 
-    context.app = Application(context.driver)
+    context.app = Application(context.driver)  # excess to main_page, header, search_result_page
 
 
 def before_scenario(context, scenario):
