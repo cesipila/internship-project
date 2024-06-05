@@ -51,7 +51,7 @@ def browser_init(context):
         'os': 'OS X', # Windows, OS X
         'osVersion': 'Sonoma',
         'browserName': 'chrome',
-        'sessionName': '22-User can filter by sale status Newly Launch'
+        'sessionName': 'scenario_name'
     }
     options.set_capability('bstack:options', bstack_options)
     context.driver = webdriver.Remote(command_executor=url, options=options)
