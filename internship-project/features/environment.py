@@ -8,8 +8,10 @@ from selenium.webdriver.support.wait import WebDriverWait
 from app.application import Application
 from support.logger import logger
 
+# Run Behave tests with Allure results
+# behave -f allure_behave.formatter:AllureFormatter -o test_results/ features/tests/target_app_ui_tests.feature
 
-def browser_init(context):
+def browser_init(context, scenario_name):
     """
     :param context: Behave context
     """
@@ -48,10 +50,10 @@ def browser_init(context):
 
     options = Options()
     bstack_options = {
-        'os': 'OS X', # Windows, OS X
+        'os': 'OS X',
         'osVersion': 'Sonoma',
         'browserName': 'chrome',
-        'sessionName': 'scenario_name'
+        'sessionName': scenario_name
     }
     options.set_capability('bstack:options', bstack_options)
     context.driver = webdriver.Remote(command_executor=url, options=options)
@@ -60,13 +62,14 @@ def browser_init(context):
     context.driver.implicitly_wait(4)
     context.wait = WebDriverWait(context.driver, timeout=15)
 
-    context.app = Application(context.driver)  # excess to main_page, header, search_result_page
+    context.app = Application(context.driver)  # access to main_page, header, search_result_page
 
 
 def before_scenario(context, scenario):
     # print('\nStarted scenario: ', scenario.name)
+    scenario_name = scenario.name
     logger.info(f'Started scenario: {scenario.name}')
-    browser_init(context)
+    browser_init(context, scenario_name)
 
 
 def before_step(context, step):
