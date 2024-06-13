@@ -1,6 +1,7 @@
 # Created by cesip at 5/31/2024
 Feature: Whatsapp and Telegram communities
 
+  @smoke @regression
   Scenario: 12 User access to Whatsapp and Telegram communities
     Given Open the main page
     When Click sign in from the main page
