@@ -17,10 +17,11 @@ def browser_init(context, scenario_name):
     """
     :param context: Behave context
     """
-    # driver_path = ChromeDriverManager().install()
-    # service = Service(driver_path)
-    # context.driver = webdriver.Chrome(service=service)
+    driver_path = ChromeDriverManager().install()
+    service = Service(driver_path)
+    context.driver = webdriver.Chrome(service=service)
 
+    ### TESTS FOR MOBILE AUTOMATION ###
     # mobile_emulation = {
     #     "deviceMetrics": {"width": 360, "height": 640, "pixelRatio": 3.0},
     #     "userAgent": "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 5 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19",
@@ -32,14 +33,6 @@ def browser_init(context, scenario_name):
     #
     # # Initialize WebDriver with options
     # context.driver = webdriver.Chrome(options=chrome_options)
-    #
-    # # Set up browser settings
-    # context.driver.maximize_window()
-    # context.driver.implicitly_wait(4)
-    # context.wait = WebDriverWait(context.driver, timeout=15)
-    #
-    # # Assume 'Application' is a custom class to manage your app's pages
-    # context.app = Application(context.driver)  # access to main_page, header, search_result_page
 
     ### IN THE EVENT OF FIREFOX ONLY TESTS ###
     # driver_path = GeckoDriverManager().install()
@@ -81,35 +74,36 @@ def browser_init(context, scenario_name):
     # context.driver = webdriver.Remote(command_executor=url, options=options)
 
     ### BROWSERSTACK MOBILE OPTIONS ###
-    bs_user = 'charles_mh6rSj'
-    bs_key = 'VeMdA4R28ndDtbpZGFir'
-    url = f'http://{bs_user}:{bs_key}@hub-cloud.browserstack.com/wd/hub'
-
-    # Capabilities for BrowserStack and mobile device
-    bstack_options = {
-        'osVersion': '11.0',  # Android version
-        'deviceName': 'Google Pixel 4',  # Device name
-        'realMobile': 'true',  # Indicate testing on a real device
-        'projectName': 'Mobile Testing Project',
-        'buildName': 'Mobile Build',
-        'sessionName': scenario_name
-    }
-
-    # Set up options for Chrome (or the desired browser)
-    options = Options()
-    options.set_capability('bstack:options', bstack_options)
-    options.set_capability('browserName', 'chrome')  # Set browser to Chrome
-    options.set_capability('browserstack.debug', 'true')  # Enable debug logs
-
-    # Initialize WebDriver for BrowserStack remote server
-    context.driver = webdriver.Remote(command_executor=url, options=options)
-
-    ### THESE CONFIGURATIONS NOT TIED TO ANY BROWSER OR MOBILE BUT ARE GLOBAL ###
+    # bs_user = 'charles_mh6rSj'
+    # bs_key = 'VeMdA4R28ndDtbpZGFir'
+    # url = f'http://{bs_user}:{bs_key}@hub-cloud.browserstack.com/wd/hub'
+    #
+    # # Capabilities for BrowserStack and mobile device
+    # bstack_options = {
+    #     'osVersion': '11.0',  # Android version
+    #     'deviceName': 'Google Pixel 4',  # Device name
+    #     'realMobile': 'true',  # Indicate testing on a real device
+    #     'projectName': 'Mobile Testing Project',
+    #     'buildName': 'Mobile Build',
+    #     'sessionName': scenario_name
+    # }
+    #
+    # # Set up options for Chrome (or the desired browser)
+    # options = Options()
+    # options.set_capability('bstack:options', bstack_options)
+    # options.set_capability('browserName', 'chrome')  # Set browser to Chrome
+    # options.set_capability('browserstack.debug', 'true')  # Enable debug logs
+    #
+    # # Initialize WebDriver for BrowserStack remote server
+    # context.driver = webdriver.Remote(command_executor=url, options=options)
+    #
+    # ### THESE CONFIGURATIONS NOT TIED TO ANY BROWSER OR MOBILE BUT ARE GLOBAL ###
     context.driver.maximize_window()
     context.driver.implicitly_wait(4)
     context.wait = WebDriverWait(context.driver, timeout=15)
 
     context.app = Application(context.driver)  # access to main_page, header, search_result_page
+
 
 
 def before_scenario(context, scenario):
