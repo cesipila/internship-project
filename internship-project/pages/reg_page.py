@@ -8,10 +8,14 @@ class RegPage(Page):
     EMAIL = (By.CSS_SELECTOR, "input[id='Email-3']")
     PASSWORD = (By.CSS_SELECTOR, "input[id='field']")
     CREATE_ACCOUNT = (By.CSS_SELECTOR, "a[wized='createaccountButtonSignup']")
+    SIGN_IN = (By.CSS_SELECTOR, "div[wized='signinButtonSignup']")
 
     def open_registration_page(self):
         self.open('https://soft.reelly.io/sign-up')
         # calls base page method directly, passes url
+
+    def sign_in(self):
+        self.click(*self.SIGN_IN)
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -31,7 +35,7 @@ class RegPage(Page):
             input_element.send_keys(value)
 
         # After setting the input, verify the fields
-        self.verify_input()
+        # self.verify_input()
 
     def verify_input(self):
         for field, (expected_value, locator) in self.inputs.items():

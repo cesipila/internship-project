@@ -41,3 +41,6 @@ class Settings(Page):
 
     def verify_news_opened(self):
         self.verify_partial_url('https://t.me/reellydxb')
+
+    def verify_connect_opened(self):
+        self.verify_partial_url('https://soft.reelly.io/book-presentation')
